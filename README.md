@@ -1,8 +1,5 @@
 # vue-cli-frame
 
-
-
-
 ## Project setup
 ```
 yarn install
