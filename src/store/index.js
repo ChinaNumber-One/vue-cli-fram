@@ -6,7 +6,6 @@ import lsPlugin from './lsPlugin'
 import modules from './modules'
 import mutations from './mutations'
 import state from './state'
-
 Vue.use(Vuex)
 
 const plugins = []

@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { Dialog } from 'vant'
 import Vue from 'vue'
-import { TOKEN } from './constants'
-import { getStorage, removeStorage, setStorage } from './storage'
+import { TOKEN } from './constant'
 
 Vue.use(Dialog)
 // create an axios instance
@@ -26,7 +25,7 @@ service.postForm = function (url, data) {
 // request interceptor
 service.interceptors.request.use(
   config => {
-    const token = getStorage(TOKEN)
+    const token = localStorage.getItem(TOKEN)
     if (token) config.headers.Authorization = token
     return config
   },
@@ -43,7 +42,7 @@ service.interceptors.response.use(
     const res = response.data
     const token = response.headers.authorization
     if (token) {
-      setStorage(TOKEN, token)
+      localStorage.setItem(TOKEN, token)
     }
     if (res.code !== 0) {
       // 登录验证
@@ -53,7 +52,7 @@ service.interceptors.response.use(
           message: '登录超时',
           confirmButtonText: '返回登录'
         }).then(() => {
-          removeStorage(TOKEN)
+          localStorage.removeItem(TOKEN)
           this.$router.push('./login')
         })
       } else {
@@ -69,6 +68,4 @@ service.interceptors.response.use(
     return response ? response.data : Promise.reject(error)
   }
 )
-
 export { service }
-

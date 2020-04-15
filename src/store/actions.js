@@ -1,10 +1,10 @@
+import { user } from '../api/index'
 export default {
-  actions: {
-    async actionA ({ commit }) {
-      commit('gotData', await getData())
-    }
+  async actionA ({ commit }) {
+    commit('setState', { action: await getData() })
   }
 }
-const getData = () => {
-  return this.$http.get('/api/text')
+const getData = async () => {
+  const res = await user.testGet()
+  return res.data
 }
