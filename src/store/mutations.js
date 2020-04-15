@@ -22,5 +22,8 @@ export default {
         value: payload[key]
       })
     }
+  },
+  removeToken (state) {
+    state.token = ''
   }
 }

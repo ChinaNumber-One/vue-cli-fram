@@ -4,37 +4,48 @@
     <div>state：{{state}}</div>
     <div>getter：{{getter}}</div>
     <div>mutation: {{mutation}}</div>
-    <div>action: {{action}}</div>
+    <div>action（请求 test 接口）: {{action||'请求中'}}</div>
+    <div>获取token</div>
+    <div>账号：17660822280</div>
+    <div>密码：54188...</div>
+    <div @click='login' v-if="!token">登录</div>
+    <div>token: {{token||'未登录'}}</div>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { user } from '../api/index'
+import { mapState } from 'vuex'
 export default {
   name: 'Home',
   data () {
     return {
       state: '',
       getter: '',
-      mutation: '',
-      action: '请求中....'
+      mutation: ''
     }
   },
   async mounted () {
-    this.$store.dispatch('actionA')
     this.state = this.date
     this.getter = this.$store.getters.getDateStr()
     this.$store.commit('setState', { auther: 'Yu Jiaming' })
     this.mutation = this.auther
-    setTimeout(() => {
-      this.action = this.$store.state.action
-    }, 3000)
+    this.$store.dispatch('actionA')
   },
   computed: {
-    ...mapState(['title', 'date', 'auther'])
+    ...mapState(['title', 'date', 'auther', 'token', 'action'])
   },
   methods: {
-    ...mapMutations(['setState'])
+    async login () {
+      const res = await user.login({
+        phone: '17660822280',
+        password: '54188...'
+      })
+      if (res.code === 0) {
+        this.$store.commit('setState', { token: res.token })
+      }
+      // this.token = this.$store.state.token
+    }
   }
 }
 </script>

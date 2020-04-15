@@ -11,5 +11,8 @@ export default {
     return service.get('/api/user/test', {
       params: payload
     })
+  },
+  login (payload) {
+    return service.post('/api/user/login', payload)
   }
 }

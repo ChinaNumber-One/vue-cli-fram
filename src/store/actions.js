@@ -1,10 +1,10 @@
 import { user } from '../api/index'
 export default {
-  async actionA ({ commit }) {
-    commit('setState', { action: await getData() })
+  async actionA ({ commit, state }) {
+    commit('setState', { action: await getData() - state.date.getTime() + 'ms' })
   }
 }
-const getData = async () => {
+const getData = async (state) => {
   const res = await user.testGet()
   return res.data
 }
